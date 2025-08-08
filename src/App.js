@@ -1,24 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import StreamerDashboard from "./pages/StreamerDashboard";
+import Viewer from "./pages/Viewer";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <nav style={{ padding: "1rem", backgroundColor: "#f0f0f0" }}>
+          <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
+          <Link to="/dashboard" style={{ marginRight: "1rem" }}>Streamer Dashboard</Link>
+          <Link to="/watch/mystream">Watch Stream</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<StreamerDashboard />} />
+          <Route path="/watch/:id" element={<Viewer />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
