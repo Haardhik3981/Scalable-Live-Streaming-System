@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
 
 function Home() {
   const [streams, setStreams] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5050/api/streams")
+    fetch(`${API_BASE}/api/streams`)
       .then((res) => res.json())
       .then((data) => setStreams(data))
       .catch((err) => console.error("Failed to fetch streams", err));

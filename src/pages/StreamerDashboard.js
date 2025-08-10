@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
 
 function StreamerDashboard() {
   const [isLive, setIsLive] = useState(false);
@@ -6,7 +7,7 @@ function StreamerDashboard() {
 
   const toggleStream = async () => {
     const updated = !isLive;
-    const res = await fetch(`http://localhost:5050/api/streams/key/${streamKey}/status`, {
+    const res = await fetch(`${API_BASE}/api/streams/key/${streamKey}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isLive: updated }),

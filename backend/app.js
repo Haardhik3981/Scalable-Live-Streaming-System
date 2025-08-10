@@ -21,8 +21,10 @@ const allowedOrigins = [
 const app = express();
 const server = http.createServer(app); // needed for socket.io
 app.use(cors({ origin: allowedOrigins }));
+app.set("trust proxy", true);
 const io = new Server(server, {
   cors: { origin: allowedOrigins, methods: ["GET", "POST"] },
+  path: "/socket.io/",
 });
 
 dotenv.config();

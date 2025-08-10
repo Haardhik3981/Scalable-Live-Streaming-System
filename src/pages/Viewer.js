@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Hls from "hls.js";
 import { io } from "socket.io-client";
-
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
+const HLS_BASE = process.env.REACT_APP_HLS_BASE || "http://localhost:8080";
 function Viewer() {
   const { id } = useParams(); // streamKey from URL
   const videoRef = useRef();
@@ -10,10 +11,11 @@ function Viewer() {
   const [viewerCount, setViewerCount] = useState(0);
 
   useEffect(() => {
-    const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
-    const HLS_BASE = process.env.REACT_APP_HLS_BASE || "http://localhost:8080";
     // 🧠 Connect to Socket.IO backend
-    socketRef.current = io(API_BASE);
+    socketRef.current = io(API_BASE, {
+      path: "/socket.io/",
+      transports: ["websocket", "polling"],  // allow both; CF supports WS
+    });
 
     // 🧠 Tell server: “Viewer joined this stream”
     socketRef.current.emit("viewer:join", { streamKey: id });
