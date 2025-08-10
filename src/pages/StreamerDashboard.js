@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 const API_BASE = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
 //const API_BASE = "https://api.haardhiksimplestream.live";
-
+if (!API_BASE) {
+  // Fail hard during build/runtime so we notice immediately
+  // eslint-disable-next-line no-console
+  console.error('❌ Missing REACT_APP_API_BASE at build time.', {
+    API_BASE
+  });
+  throw new Error('Missing REACT_APP_API_BASE ');
+}
 function StreamerDashboard() {
   const [isLive, setIsLive] = useState(false);
   const streamKey = "mystream"; // Replace with dynamic key if using auth

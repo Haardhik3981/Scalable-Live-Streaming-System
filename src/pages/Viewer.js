@@ -8,6 +8,14 @@ import { io } from "socket.io-client";
 //const HLS_BASE = "https://cdn.haardhiksimplestream.live";
 const API_BASE = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
 const HLS_BASE = (process.env.REACT_APP_HLS_BASE || '').replace(/\/$/, '');
+if (!API_BASE || !HLS_BASE) {
+  // Fail hard during build/runtime so we notice immediately
+  // eslint-disable-next-line no-console
+  console.error('❌ Missing REACT_APP_API_BASE or REACT_APP_HLS_BASE at build time.', {
+    API_BASE, HLS_BASE
+  });
+  throw new Error('Missing REACT_APP_API_BASE / REACT_APP_HLS_BASE');
+}
 function Viewer() {
   const { id } = useParams(); // streamKey from URL
   const videoRef = useRef();
