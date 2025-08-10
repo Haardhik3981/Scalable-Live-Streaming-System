@@ -15,7 +15,8 @@ const allowedOrigins = [
   "https://www.haardhiksimplestream.live",
   "https://cdn.haardhiksimplestream.live",
   "https://api.haardhiksimplestream.live",
-  "http://100.64.8.207:3000"
+  "http://100.64.8.207:3000",
+  "https://scalable-live-streaming-system.pages.dev"
 ];
 
 const app = express();
