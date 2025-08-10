@@ -10,18 +10,21 @@ function Viewer() {
   const [viewerCount, setViewerCount] = useState(0);
 
   useEffect(() => {
+    const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
+    const HLS_BASE = process.env.REACT_APP_HLS_BASE || "http://localhost:8080";
     // 🧠 Connect to Socket.IO backend
-    socketRef.current = io("http://localhost:5050");
+    socketRef.current = io(API_BASE);
 
     // 🧠 Tell server: “Viewer joined this stream”
     socketRef.current.emit("viewer:join", { streamKey: id });
-    fetch(`http://localhost:5050/api/streams/viewers/${id}`)
+    fetch(`${API_BASE}/api/streams/viewers/${id}`)
     .then(res => res.json())
     .then(data => setViewerCount(data.viewerCount || 0));
 
     // 🧠 HLS Video Player Setup
     const video = videoRef.current;
-    const streamURL = `http://localhost:8080/hls/${id}.m3u8`;
+    //http://localhost:8080/hls/${id}.m3u8
+    const streamURL = `${HLS_BASE}/hls/${id}.m3u8`;
 
     if (Hls.isSupported()) {
       const hls = new Hls();

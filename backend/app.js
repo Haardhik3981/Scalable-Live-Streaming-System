@@ -8,18 +8,27 @@ const { Server } = require("socket.io");
 const streamRoutes = require("./routes/streamRoutes");
 const redisClient = require("./redisClient");
 const sendKafkaMessage = require("./kafkaClient");
-
-dotenv.config();
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "https://haardhiksimplestream.live",
+  "https://www.haardhiksimplestream.live",
+  "https://cdn.haardhiksimplestream.live",
+  "https://api.haardhiksimplestream.live",
+  "http://100.64.8.207:3000"
+];
 
 const app = express();
 const server = http.createServer(app); // needed for socket.io
+app.use(cors({ origin: allowedOrigins }));
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
+  cors: { origin: allowedOrigins, methods: ["GET", "POST"] },
 });
 
-app.use(cors());
+dotenv.config();
+
+
+
 app.use(express.json());
 app.use("/api/streams", streamRoutes);
 
@@ -55,9 +64,9 @@ io.on("connection", (socket) => {
     
   });
 });
-console.log("👉 Connecting to MongoDB at:", process.env.MONGODB_URI);
+
 mongoose
-  .connect("mongodb+srv://haardhiknbd:MA%40Santacruz99.@cluster0.q9uozpc.mongodb.net/livestream?retryWrites=true&w=majority&appName=Cluster0")
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("🟢 MongoDB connected");
     server.listen(5050, () => console.log("🚀 Server running on port 5050"));
