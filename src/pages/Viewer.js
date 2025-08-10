@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import Hls from "hls.js";
 import { io } from "socket.io-client";
 //const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5050";
-const API_BASE = "https://api.haardhiksimplestream.live";
+//const API_BASE = "https://api.haardhiksimplestream.live";
 //const HLS_BASE = process.env.REACT_APP_HLS_BASE || "http://localhost:8080";
-const HLS_BASE = "https://cdn.haardhiksimplestream.live";
+//const HLS_BASE = "https://cdn.haardhiksimplestream.live";
+const API_BASE = (process.env.REACT_APP_API_BASE || '').replace(/\/$/, '');
+const HLS_BASE = (process.env.REACT_APP_HLS_BASE || '').replace(/\/$/, '');
 function Viewer() {
   const { id } = useParams(); // streamKey from URL
   const videoRef = useRef();

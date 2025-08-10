@@ -16,7 +16,7 @@ const allowedOrigins = [
   "https://cdn.haardhiksimplestream.live",
   "https://api.haardhiksimplestream.live",
   "http://100.64.8.207:3000",
-  "https://scalable-live-streaming-system.pages.dev"
+  "https://scalable-live-streaming-system.pages.dev",
 ];
 
 const app = express();
@@ -24,7 +24,7 @@ const server = http.createServer(app); // needed for socket.io
 app.use(cors({ origin: allowedOrigins }));
 app.set("trust proxy", true);
 const io = new Server(server, {
-  cors: { origin: allowedOrigins, methods: ["GET", "POST"] },
+  cors: { origin: allowedOrigins, methods: ["GET", "POST", "OPTIONS"] },
   path: "/socket.io/",
 });
 
